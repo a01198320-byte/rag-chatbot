@@ -1,0 +1,10 @@
+streamlit
+pypdf
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+chromadb
+sentence-transformers
+openai
+tiktoken
