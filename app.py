@@ -80,11 +80,13 @@ st.markdown("""
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* ===== CHAT BUBBLES ===== */
+/* ===== ALL CHAT BUBBLES ===== */
 
 [data-testid="stChatMessage"] {
 
-    background: white;
+    background-color: #fffdf5;
+
+    border: 2px solid #facc15;
 
     border-radius: 18px;
 
@@ -93,24 +95,6 @@ st.markdown("""
     margin-bottom: 14px;
 
     box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-}
-
-/* ===== USER MESSAGE ===== */
-
-[data-testid="stChatMessage"]:has(.stChatMessageContent-user) {
-
-    border: 2px solid #d1d5db;
-
-    background-color: #f9fafb;
-}
-
-/* ===== ASSISTANT MESSAGE ===== */
-
-[data-testid="stChatMessage"]:has(.stChatMessageContent-assistant) {
-
-    border: 2px solid #facc15;
-
-    background-color: #fffbeb;
 }
 
 /* ===== CHAT INPUT ===== */
