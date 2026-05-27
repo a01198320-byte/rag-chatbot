@@ -5,8 +5,10 @@ import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
+
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(page_title="Chatbot RAG PDFs", page_icon="📄")
 
@@ -31,8 +33,10 @@ for msg in st.session_state.messages:
 
 @st.cache_resource
 def get_embeddings():
-    return HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    return OpenAIEmbeddings(
+        model="text-embedding-3-small",
+        api_key=openai_api_key
+    
     )
 
 def process_pdfs(files):
