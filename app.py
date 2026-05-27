@@ -1,5 +1,7 @@
 import tempfile
 import streamlit as st
+import pandas as pd
+from datetime import datetime
 
 from chromadb.config import Settings
 
@@ -237,7 +239,34 @@ def process_pdfs(files):
     )
 
     return vectorstore
+def save_feedback(question, answer, feedback):
 
+    row = {
+        "timestamp": datetime.now(),
+        "question": question,
+        "answer": answer,
+        "feedback": feedback
+    }
+
+    df = pd.DataFrame([row])
+
+    try:
+
+        existing = pd.read_csv("questions_log.csv")
+
+        updated = pd.concat([existing, df])
+
+        updated.to_csv(
+            "questions_log.csv",
+            index=False
+        )
+
+    except:
+
+        df.to_csv(
+            "questions_log.csv",
+            index=False
+        )
 # =====================================
 # MAIN CHAT
 # =====================================
@@ -368,7 +397,33 @@ Respuesta:
 
         with st.chat_message("assistant"):
             st.write(answer)
+col1, col2 = st.columns(2)
 
+with col1:
+
+    if st.button("👍 Sí me ayudó"):
+
+        save_feedback(
+            question,
+            answer,
+            "helpful"
+        )
+
+        st.success("¡Gracias por tu feedback!")
+
+with col2:
+
+    if st.button("👎 No ayudó"):
+
+        save_feedback(
+            question,
+            answer,
+            "not_helpful"
+        )
+
+        st.warning(
+            "Tu pregunta será revisada para mejorar la documentación interna."
+        )
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer
