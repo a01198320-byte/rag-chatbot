@@ -65,7 +65,7 @@ def process_pdfs(files):
     client_settings=Settings(
         anonymized_telemetry=False,
         is_persistent=False
-
+    )
     )
 
     return vectorstore
