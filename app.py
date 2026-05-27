@@ -1,5 +1,3 @@
-```python
-import os
 import tempfile
 import streamlit as st
 
@@ -12,22 +10,26 @@ from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 
-# =========================
-# CONFIG
-# =========================
+# =====================================
+# PAGE CONFIG
+# =====================================
 
 st.set_page_config(
-    page_title="Axioma Chatbot",
+    page_title="Axioma Internal Chatbot",
     page_icon="📄"
 )
 
 st.title("📄 Axioma Internal Chatbot")
 
+# =====================================
+# OPENAI KEY
+# =====================================
+
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-# =========================
+# =====================================
 # SESSION MEMORY
-# =========================
+# =====================================
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -36,9 +38,9 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# =========================
-# FILE UPLOAD
-# =========================
+# =====================================
+# FILE UPLOADER
+# =====================================
 
 uploaded_files = st.file_uploader(
     "Sube tus PDFs",
@@ -50,20 +52,21 @@ question = st.chat_input(
     "Haz una pregunta sobre los documentos..."
 )
 
-# =========================
+# =====================================
 # EMBEDDINGS
-# =========================
+# =====================================
 
 @st.cache_resource
 def get_embeddings():
+
     return OpenAIEmbeddings(
         model="text-embedding-3-small",
         api_key=openai_api_key
     )
 
-# =========================
-# PROCESS PDFs
-# =========================
+# =====================================
+# PDF PROCESSING
+# =====================================
 
 def process_pdfs(files):
 
@@ -101,9 +104,9 @@ def process_pdfs(files):
 
     return vectorstore
 
-# =========================
+# =====================================
 # MAIN CHAT
-# =========================
+# =====================================
 
 if uploaded_files:
 
@@ -127,7 +130,7 @@ if uploaded_files:
         with st.chat_message("user"):
             st.write(question)
 
-        # RETRIEVE DOCS
+        # RETRIEVE DOCUMENTS
 
         relevant_docs = retriever.invoke(question)
 
@@ -136,7 +139,9 @@ if uploaded_files:
             for doc in relevant_docs
         ])
 
+        # =====================================
         # LLM
+        # =====================================
 
         llm = ChatOpenAI(
             model="gpt-4o-mini",
@@ -144,7 +149,9 @@ if uploaded_files:
             temperature=0
         )
 
+        # =====================================
         # PROMPT
+        # =====================================
 
         prompt = ChatPromptTemplate.from_template("""
 Eres un chatbot interno de Axioma.
@@ -210,7 +217,9 @@ Pregunta:
 Respuesta:
 """)
 
+        # =====================================
         # CHAIN
+        # =====================================
 
         chain = prompt | llm
 
@@ -219,7 +228,9 @@ Respuesta:
             "question": question
         }).content
 
+        # =====================================
         # ASSISTANT MESSAGE
+        # =====================================
 
         with st.chat_message("assistant"):
             st.write(answer)
@@ -232,5 +243,4 @@ Respuesta:
 else:
 
     st.info("Primero sube uno o más PDFs.")
-```
 
