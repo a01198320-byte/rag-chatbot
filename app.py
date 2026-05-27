@@ -120,16 +120,6 @@ div.stButton > button {
 
     padding: 0.6rem 1rem;
 }
-/* ===== CHAT INPUT GLOW ===== */
-
-textarea:focus {
-
-    border: 2px solid #22c55e !important;
-
-    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25) !important;
-
-    outline: none !important;
-}
 /* ===== USER ICON ===== */
 
 [data-testid="stChatMessage"]:has(.stChatMessageContent-user)
