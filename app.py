@@ -15,7 +15,7 @@ from langchain_openai import ChatOpenAI
 # =====================================
 
 st.set_page_config(
-    page_title="Axioma Internal Chatbot",
+    page_title="Axioma Buddy",
     page_icon="📄"
 )
 st.markdown("""
