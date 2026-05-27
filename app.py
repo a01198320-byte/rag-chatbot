@@ -184,7 +184,7 @@ uploaded_files = st.file_uploader(
 )
 
 question = st.chat_input(
-    "Haz una pregunta sobre los documentos..."
+    "¿En qué puedo ayudarte hoy?"
 )
 
 # =====================================
