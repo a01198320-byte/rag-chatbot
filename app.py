@@ -15,7 +15,7 @@ from langchain_openai import ChatOpenAI
 # =====================================
 
 st.set_page_config(
-    page_title="Axioma Buddy",
+    page_title="Axcess",
     page_icon="📄"
 )
 st.markdown("""
@@ -152,7 +152,7 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 st.markdown("""
-# 🤖 Axioma Buddy  
+# 🤖 Axcess
 Consulta información interna sobre **seguros, facturación y onboarding** a partir de tus PDFs.
 """)
 
