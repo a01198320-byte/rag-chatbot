@@ -2,6 +2,8 @@ import os
 import tempfile
 import streamlit as st
 
+import chromadb
+from chromadb.config import Settings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -58,8 +60,12 @@ def process_pdfs(files):
     chunks = splitter.split_documents(docs)
 
     vectorstore = Chroma.from_documents(
-        documents=chunks,
-        embedding=get_embeddings()
+    documents=chunks,
+    embedding=get_embeddings(),
+    client_settings=Settings(
+        anonymized_telemetry=False,
+        is_persistent=False
+
     )
 
     return vectorstore
