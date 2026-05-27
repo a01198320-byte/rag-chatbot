@@ -24,7 +24,7 @@ st.markdown("""
 /* ===== MAIN BACKGROUND ===== */
 
 .main {
-    background-color: #f4f7fb;
+    background-color: #fffdf7;
 }
 
 /* ===== PAGE WIDTH ===== */
@@ -37,10 +37,11 @@ st.markdown("""
 /* ===== TOP BANNER ===== */
 
 .banner {
+
     background: linear-gradient(
         90deg,
-        #1e3a8a,
-        #2563eb
+        #facc15,
+        #f59e0b
     );
 
     padding: 1.2rem 1.5rem;
@@ -53,26 +54,28 @@ st.markdown("""
 }
 
 .banner h1 {
-    color: white;
+    color: #1f2937;
     margin: 0;
     font-size: 2rem;
+    font-weight: 700;
 }
 
 .banner p {
-    color: rgba(255,255,255,0.85);
+    color: #374151;
     margin-top: 6px;
 }
 
 /* ===== FILE UPLOADER ===== */
 
 .stFileUploader {
+
     background: white;
 
     padding: 18px;
 
     border-radius: 18px;
 
-    border: 2px solid #dbeafe;
+    border: 2px solid #fde68a;
 
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
@@ -89,8 +92,6 @@ st.markdown("""
 
     margin-bottom: 14px;
 
-    border: 2px solid #c7d2fe;
-
     box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
 
@@ -98,18 +99,18 @@ st.markdown("""
 
 [data-testid="stChatMessage"]:has(.stChatMessageContent-user) {
 
-    border: 2px solid #93c5fd;
+    border: 2px solid #d1d5db;
 
-    background-color: #eff6ff;
+    background-color: #f9fafb;
 }
 
 /* ===== ASSISTANT MESSAGE ===== */
 
 [data-testid="stChatMessage"]:has(.stChatMessageContent-assistant) {
 
-    border: 2px solid #c4b5fd;
+    border: 2px solid #facc15;
 
-    background-color: #faf5ff;
+    background-color: #fffbeb;
 }
 
 /* ===== CHAT INPUT ===== */
@@ -127,20 +128,36 @@ div.stButton > button {
 
     border: none;
 
-    background: #2563eb;
+    background: #facc15;
 
-    color: white;
+    color: #1f2937;
 
-    font-weight: 600;
+    font-weight: 700;
 
     padding: 0.6rem 1rem;
+}
+
+/* ===== USER ICON ===== */
+
+[data-testid="stChatMessage"]:has(.stChatMessageContent-user)
+[data-testid="stChatMessageAvatarUser"] {
+
+    background-color: #9ca3af !important;
+}
+
+/* ===== ASSISTANT ICON ===== */
+
+[data-testid="stChatMessage"]:has(.stChatMessageContent-assistant)
+[data-testid="stChatMessageAvatarAssistant"] {
+
+    background-color: #facc15 !important;
 }
 
 /* ===== SIDEBAR ===== */
 
 [data-testid="stSidebar"] {
 
-    background-color: #111827;
+    background-color: #1f2937;
 }
 
 [data-testid="stSidebar"] * {
@@ -150,7 +167,6 @@ div.stButton > button {
 
 </style>
 """, unsafe_allow_html=True)
-
 st.markdown("""
 # 🤖 Axioma Assistant  
 Consulta información interna sobre **seguros, facturación y onboarding** a partir de tus PDFs.
