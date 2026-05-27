@@ -152,7 +152,7 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 st.markdown("""
-# 🤖 Axioma Assistant  
+# 🤖 Axioma Buddy  
 Consulta información interna sobre **seguros, facturación y onboarding** a partir de tus PDFs.
 """)
 
