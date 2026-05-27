@@ -20,46 +20,134 @@ st.set_page_config(
 )
 st.markdown("""
 <style>
+
+/* ===== MAIN BACKGROUND ===== */
+
 .main {
-    background-color: #f7f8fb;
+    background-color: #f4f7fb;
 }
+
+/* ===== PAGE WIDTH ===== */
 
 .block-container {
-    padding-top: 2rem;
-    max-width: 900px;
+    max-width: 950px;
+    padding-top: 1.5rem;
 }
 
-h1 {
-    color: #1f2937;
-    font-size: 2.2rem;
-    font-weight: 700;
+/* ===== TOP BANNER ===== */
+
+.banner {
+    background: linear-gradient(
+        90deg,
+        #1e3a8a,
+        #2563eb
+    );
+
+    padding: 1.2rem 1.5rem;
+
+    border-radius: 20px;
+
+    margin-bottom: 1.5rem;
+
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
 }
+
+.banner h1 {
+    color: white;
+    margin: 0;
+    font-size: 2rem;
+}
+
+.banner p {
+    color: rgba(255,255,255,0.85);
+    margin-top: 6px;
+}
+
+/* ===== FILE UPLOADER ===== */
 
 .stFileUploader {
     background: white;
+
     padding: 18px;
+
     border-radius: 18px;
-    border: 1px solid #e5e7eb;
+
+    border: 2px solid #dbeafe;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
+
+/* ===== CHAT BUBBLES ===== */
 
 [data-testid="stChatMessage"] {
+
     background: white;
+
     border-radius: 18px;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #e5e7eb;
+
+    padding: 14px;
+
+    margin-bottom: 14px;
+
+    border: 2px solid #c7d2fe;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
 
-.stChatInput {
+/* ===== USER MESSAGE ===== */
+
+[data-testid="stChatMessage"]:has(.stChatMessageContent-user) {
+
+    border: 2px solid #93c5fd;
+
+    background-color: #eff6ff;
+}
+
+/* ===== ASSISTANT MESSAGE ===== */
+
+[data-testid="stChatMessage"]:has(.stChatMessageContent-assistant) {
+
+    border: 2px solid #c4b5fd;
+
+    background-color: #faf5ff;
+}
+
+/* ===== CHAT INPUT ===== */
+
+.stChatInputContainer {
+
     border-radius: 18px;
 }
+
+/* ===== BUTTONS ===== */
 
 div.stButton > button {
+
     border-radius: 14px;
+
     border: none;
-    padding: 0.6rem 1rem;
+
+    background: #2563eb;
+
+    color: white;
+
     font-weight: 600;
+
+    padding: 0.6rem 1rem;
 }
+
+/* ===== SIDEBAR ===== */
+
+[data-testid="stSidebar"] {
+
+    background-color: #111827;
+}
+
+[data-testid="stSidebar"] * {
+
+    color: white;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
