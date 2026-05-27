@@ -18,7 +18,50 @@ st.set_page_config(
     page_title="Axioma Internal Chatbot",
     page_icon="📄"
 )
+st.markdown("""
+<style>
+.main {
+    background-color: #f7f8fb;
+}
 
+.block-container {
+    padding-top: 2rem;
+    max-width: 900px;
+}
+
+h1 {
+    color: #1f2937;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.stFileUploader {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+}
+
+[data-testid="stChatMessage"] {
+    background: white;
+    border-radius: 18px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.stChatInput {
+    border-radius: 18px;
+}
+
+div.stButton > button {
+    border-radius: 14px;
+    border: none;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+}
+</style>
+""", unsafe_allow_html=True)
 st.title("📄 Axioma Internal Chatbot")
 
 # =====================================
