@@ -172,8 +172,9 @@ st.markdown("""
 <div class="banner">
     <h1>🤖 Axcess</h1>
     <p>
-        Consulta información interna sobre seguros,
-        facturación y onboarding.
+        ¡Hola! Soy Axcess 👋  
+        Tu asistente interno de Axioma para ayudarte con dudas sobre
+        RH, onboarding, seguros, facturación y procesos internos.
     </p>
 </div>
 """, unsafe_allow_html=True)
