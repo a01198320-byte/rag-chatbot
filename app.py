@@ -1,8 +1,8 @@
 import tempfile
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 
+from datetime import datetime
 from chromadb.config import Settings
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -12,14 +12,20 @@ from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 
-# =====================================
+# ==================================================
 # PAGE CONFIG
-# =====================================
+# ==================================================
 
 st.set_page_config(
     page_title="Axcess",
-    page_icon="📄"
+    page_icon="🤖",
+    layout="centered"
 )
+
+# ==================================================
+# CUSTOM CSS
+# ==================================================
+
 st.markdown("""
 <style>
 
@@ -101,9 +107,15 @@ st.markdown("""
 
 /* ===== CHAT INPUT ===== */
 
-.stChatInputContainer {
+textarea:focus {
 
-    border-radius: 18px;
+    border: 2px solid #22c55e !important;
+
+    box-shadow:
+        0 0 8px rgba(34, 197, 94, 0.6),
+        0 0 18px rgba(34, 197, 94, 0.35) !important;
+
+    outline: none !important;
 }
 
 /* ===== BUTTONS ===== */
@@ -122,9 +134,9 @@ div.stButton > button {
 
     padding: 0.6rem 1rem;
 }
+
 /* ===== USER ICON ===== */
 
-[data-testid="stChatMessage"]:has(.stChatMessageContent-user)
 [data-testid="stChatMessageAvatarUser"] {
 
     background-color: #9ca3af !important;
@@ -132,7 +144,6 @@ div.stButton > button {
 
 /* ===== ASSISTANT ICON ===== */
 
-[data-testid="stChatMessage"]:has(.stChatMessageContent-assistant)
 [data-testid="stChatMessageAvatarAssistant"] {
 
     background-color: #facc15 !important;
@@ -152,34 +163,45 @@ div.stButton > button {
 
 </style>
 """, unsafe_allow_html=True)
-st.markdown("""
-# 🤖 Axcess
-Consulta información interna sobre **seguros, facturación y onboarding** a partir de tus PDFs.
-""")
 
-# =====================================
+# ==================================================
+# HEADER
+# ==================================================
+
+st.markdown("""
+<div class="banner">
+    <h1>🤖 Axcess</h1>
+    <p>
+        Consulta información interna sobre seguros,
+        facturación y onboarding.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# ==================================================
 # OPENAI KEY
-# =====================================
+# ==================================================
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-# =====================================
+# ==================================================
 # SESSION MEMORY
-# =====================================
+# ==================================================
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 for msg in st.session_state.messages:
+
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# =====================================
-# FILE UPLOADER
-# =====================================
+# ==================================================
+# FILE UPLOAD
+# ==================================================
 
 uploaded_files = st.file_uploader(
-    "Sube tus PDFs",
+    "📎 Sube documentos PDF",
     type=["pdf"],
     accept_multiple_files=True
 )
@@ -188,9 +210,9 @@ question = st.chat_input(
     "¿En qué puedo ayudarte hoy?"
 )
 
-# =====================================
+# ==================================================
 # EMBEDDINGS
-# =====================================
+# ==================================================
 
 @st.cache_resource
 def get_embeddings():
@@ -200,9 +222,9 @@ def get_embeddings():
         api_key=openai_api_key
     )
 
-# =====================================
+# ==================================================
 # PDF PROCESSING
-# =====================================
+# ==================================================
 
 def process_pdfs(files):
 
@@ -216,6 +238,7 @@ def process_pdfs(files):
         ) as tmp:
 
             tmp.write(file.read())
+
             tmp_path = tmp.name
 
         loader = PyPDFLoader(tmp_path)
@@ -239,6 +262,11 @@ def process_pdfs(files):
     )
 
     return vectorstore
+
+# ==================================================
+# FEEDBACK SAVE
+# ==================================================
+
 def save_feedback(question, answer, feedback):
 
     row = {
@@ -267,13 +295,14 @@ def save_feedback(question, answer, feedback):
             "questions_log.csv",
             index=False
         )
-# =====================================
+
+# ==================================================
 # MAIN CHAT
-# =====================================
+# ==================================================
 
 if uploaded_files:
 
-    with st.spinner("Leyendo PDFs..."):
+    with st.spinner("Leyendo documentos..."):
 
         db = process_pdfs(uploaded_files)
 
@@ -283,7 +312,9 @@ if uploaded_files:
 
     if question:
 
+        # =========================
         # USER MESSAGE
+        # =========================
 
         st.session_state.messages.append({
             "role": "user",
@@ -293,7 +324,9 @@ if uploaded_files:
         with st.chat_message("user"):
             st.write(question)
 
-        # RETRIEVE DOCUMENTS
+        # =========================
+        # RETRIEVE DOCS
+        # =========================
 
         relevant_docs = retriever.invoke(question)
 
@@ -302,9 +335,9 @@ if uploaded_files:
             for doc in relevant_docs
         ])
 
-        # =====================================
+        # =========================
         # LLM
-        # =====================================
+        # =========================
 
         llm = ChatOpenAI(
             model="gpt-4o-mini",
@@ -312,64 +345,27 @@ if uploaded_files:
             temperature=0
         )
 
-        # =====================================
+        # =========================
         # PROMPT
-        # =====================================
+        # =========================
 
         prompt = ChatPromptTemplate.from_template("""
-Eres un chatbot interno de Axioma.
+Eres Axcess, un chatbot interno de Axioma.
 
-ALCANCE DEL CHATBOT:
-Este chatbot solo contesta preguntas relacionadas con:
+ALCANCE:
+Responde preguntas sobre:
 - Seguros
 - Facturación
-- Un poco de onboarding
+- Onboarding
+- Procesos internos documentados
 
-Si el usuario pregunta algo fuera de estos temas, responde amablemente:
-
-"Este chatbot está diseñado para responder únicamente preguntas sobre seguros, facturación y algunos temas de onboarding. Para otros temas internos, por favor consulta el SharePoint de procesos internos o contacta a tu BP de Recursos Humanos según tu célula."
-
-SOBRE SHAREPOINT:
-Sí contamos con un SharePoint donde se documentan los procesos internos de la empresa.
-
-Actualmente el contenido está en actualización, por lo que no está listo para consultarse de forma directa.
-
-SOPORTE INTERNO POR CÉLULA:
-
-- TH Stefany:
-  - Célula 360
-  - Célula del Como Si
-
-- TH Priscila:
-  - Célula Alpha
-
-- TH Marlen:
-  - Célula Rentable
-  - Célula Máxima
-  - Célula Nueva
-
-- TH Franquicia Juan Carlos:
-  - Célula Lobo GV
-  - Célula Lobo RH
-  - Célula Jaguar
-
-REGLAS IMPORTANTES:
-
-1. Responde únicamente usando el contexto recuperado.
-
+REGLAS:
+1. Responde únicamente usando el contexto proporcionado.
 2. No inventes información.
-
-3. Si la respuesta no está claramente en el contexto, responde:
-
+3. Si no encuentras suficiente información, responde:
 "No encontré suficiente información en los documentos para responder con seguridad."
-
 4. No uses conocimiento externo.
-
-5. Si el usuario pregunta algo fuera del alcance o que no puedas responder:
-   - pídele su célula
-   - oriéntalo con su BP correspondiente
-
-6. Cuando redirijas al usuario, usa un tono amable y útil.
+5. Si la pregunta está fuera del alcance, pide al usuario contactar RH o revisar documentación interna.
 
 Contexto:
 {context}
@@ -380,9 +376,9 @@ Pregunta:
 Respuesta:
 """)
 
-        # =====================================
+        # =========================
         # CHAIN
-        # =====================================
+        # =========================
 
         chain = prompt | llm
 
@@ -391,39 +387,44 @@ Respuesta:
             "question": question
         }).content
 
-        # =====================================
+        # =========================
         # ASSISTANT MESSAGE
-        # =====================================
+        # =========================
 
         with st.chat_message("assistant"):
+
             st.write(answer)
-col1, col2 = st.columns(2)
 
-with col1:
+            col1, col2 = st.columns(2)
 
-    if st.button("👍 Sí me ayudó"):
+            with col1:
 
-        save_feedback(
-            question,
-            answer,
-            "helpful"
-        )
+                if st.button("👍 Sí me ayudó"):
 
-        st.success("¡Gracias por tu feedback!")
+                    save_feedback(
+                        question,
+                        answer,
+                        "helpful"
+                    )
 
-with col2:
+                    st.success(
+                        "¡Gracias por tu feedback!"
+                    )
 
-    if st.button("👎 No ayudó"):
+            with col2:
 
-        save_feedback(
-            question,
-            answer,
-            "not_helpful"
-        )
+                if st.button("👎 No ayudó"):
 
-        st.warning(
-            "Tu pregunta será revisada para mejorar la documentación interna."
-        )
+                    save_feedback(
+                        question,
+                        answer,
+                        "not_helpful"
+                    )
+
+                    st.warning(
+                        "Tu pregunta será revisada para mejorar la documentación interna."
+                    )
+
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer
@@ -431,5 +432,7 @@ with col2:
 
 else:
 
-    st.info("Primero sube uno o más PDFs.")
+    st.info(
+        "Sube uno o más PDFs para comenzar."
+    )
 
