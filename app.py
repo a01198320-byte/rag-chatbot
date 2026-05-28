@@ -105,19 +105,6 @@ st.markdown("""
     box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
 
-/* ===== CHAT INPUT ===== */
-
-textarea:focus {
-
-    border: 2px solid #22c55e !important;
-
-    box-shadow:
-        0 0 8px rgba(34, 197, 94, 0.6),
-        0 0 18px rgba(34, 197, 94, 0.35) !important;
-
-    outline: none !important;
-}
-
 /* ===== BUTTONS ===== */
 
 div.stButton > button {
