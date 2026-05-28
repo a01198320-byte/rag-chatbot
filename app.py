@@ -423,39 +423,3 @@ else:
     st.info(
         "Sube uno o más PDFs para comenzar."
     )
-# =====================================
-# ADMIN PANEL
-# =====================================
-
-st.divider()
-
-admin_password = st.text_input(
-    "Admin Access",
-    type="password"
-)
-
-if admin_password == "axiomaadmin":
-
-    st.subheader("📊 Feedback Dashboard")
-
-    try:
-
-        feedback_df = pd.read_csv(
-            "questions_log.csv"
-        )
-
-        st.dataframe(feedback_df)
-
-        st.subheader("❌ Preguntas no resueltas")
-
-        unresolved = feedback_df[
-            feedback_df["feedback"] == "not_helpful"
-        ]
-
-        st.dataframe(unresolved)
-
-    except:
-
-        st.info(
-            "Todavía no hay feedback registrado."
-        )
