@@ -423,4 +423,28 @@ else:
     st.info(
         "Sube uno o más PDFs para comenzar."
     )
+# =====================================
+# ADMIN PANEL
+# =====================================
 
+st.divider()
+
+with st.expander("📊 Ver feedback y preguntas"):
+
+    try:
+
+        feedback_df = pd.read_csv("questions_log.csv")
+
+        st.dataframe(feedback_df)
+
+        st.subheader("❌ Preguntas no resueltas")
+
+        unresolved = feedback_df[
+            feedback_df["feedback"] == "not_helpful"
+        ]
+
+        st.dataframe(unresolved)
+
+    except:
+
+        st.info("Todavía no hay feedback registrado.")
