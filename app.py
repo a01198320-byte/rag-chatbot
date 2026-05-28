@@ -429,11 +429,20 @@ else:
 
 st.divider()
 
-with st.expander("📊 Ver feedback y preguntas"):
+admin_password = st.text_input(
+    "Admin Access",
+    type="password"
+)
+
+if admin_password == "axiomaadmin":
+
+    st.subheader("📊 Feedback Dashboard")
 
     try:
 
-        feedback_df = pd.read_csv("questions_log.csv")
+        feedback_df = pd.read_csv(
+            "questions_log.csv"
+        )
 
         st.dataframe(feedback_df)
 
@@ -447,4 +456,6 @@ with st.expander("📊 Ver feedback y preguntas"):
 
     except:
 
-        st.info("Todavía no hay feedback registrado.")
+        st.info(
+            "Todavía no hay feedback registrado."
+        )
