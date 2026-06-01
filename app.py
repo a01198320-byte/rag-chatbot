@@ -337,8 +337,8 @@ if uploaded_files:
         # PROMPT
         # =========================
 
-prompt = ChatPromptTemplate.from_template("""
-Eres Axcess, un chatbot interno de Axioma.
+        prompt = ChatPromptTemplate.from_template("""
+    Eres Axcess, un chatbot interno de Axioma.
 
 ALCANCE:
 Responde únicamente preguntas sobre:
